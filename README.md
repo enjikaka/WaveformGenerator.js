@@ -44,5 +44,6 @@ document.querySelector('input').addEventListener('change', function(e) {
 }, false);
 ```
 
-Demo here: [codepen.io/enjikaka/pen/ngBoH](http://codepen.io/enjikaka/pen/ngBoH)
-Or with Spotify here: [codepen.io/enjikaka/pen/DrFEk](http://codepen.io/enjikaka/pen/DrFEk)
+Demo your local audio files here: [codepen.io/enjikaka/pen/ngBoH](http://codepen.io/enjikaka/pen/ngBoH)
+
+or do it with Spotify here: [codepen.io/enjikaka/pen/DrFEk](http://codepen.io/enjikaka/pen/DrFEk)
