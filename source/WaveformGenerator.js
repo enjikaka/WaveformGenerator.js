@@ -1,16 +1,5 @@
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 
-/*
-window.waveformCanvas = document.createElement('canvas');
-window.waveformCanvasContext = window.waveformCanvas.getContext('2d');
-
-window.waveformContext = new AudioContext();
-window.waveformBarWidth = 1;
-window.waveformBarGap = 0;
-window.waveformBarAlign = 0;
-window.svg = null;
- */
-
 var WaveformGenerator = {
   tmp: {
     bar: {
@@ -74,8 +63,8 @@ var WaveformGenerator = {
     var sections = this.tmp.canvas.width;
     var len = Math.floor(buffer.length / sections);
     for (var i = 0; i < sections; i += this.tmp.bar.width) {
-        var pos = i * len;
-        this.drawBar(i, this.bufferMeasure(pos, len, buffer));
+        var position = i * length;
+        this.drawBar(i, this.bufferMeasure(position, length, buffer));
     }
     if (i >= sections) {
       WaveformGenerator.tmp.retFunc(this.tmp.canvas.toDataURL(), URL.createObjectURL(new Blob(['<?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">' + this.tmp.svg.outerHTML], {
