@@ -17,8 +17,6 @@ var WaveformGenerator = {
       this.error('Not enough arguments');
       return;
     }
-    // Prepare audio
-    this.tmp.audioContext = new AudioContext();
     // Prepare canvas
     this.tmp.canvas = document.createElement('canvas');
     var canvas = this.tmp.canvas;
