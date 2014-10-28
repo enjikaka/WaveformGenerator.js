@@ -59,7 +59,7 @@ var WaveformGenerator = {
     console.error(message);
   },
   extractBuffer: function(buffer) {
-    var buffer = buffer.getChannelData(0);
+    buffer = buffer.getChannelData(0);
     var sections = this.tmp.canvas.width;
     var len = Math.floor(buffer.length / sections);
     for (var i = 0; i < sections; i += this.tmp.bar.width) {
@@ -83,17 +83,14 @@ var WaveformGenerator = {
     var canvas = this.tmp.canvas;
     var ctx = this.tmp.canvas.getContext('2d');
     ctx.fillStyle = this.tmp.wave.color;
-    var h = val * 40 * canvas.height,
-        w = this.tmp.bar.width;
+    var height = val * 40 * canvas.height, width = this.tmp.bar.width;
     if (this.tmp.bar.gap !== 0) {
-        w *= Math.abs(1 - this.tmp.bar.gap);
+      width *= Math.abs(1 - this.tmp.bar.gap);
     }
-    var x = i + (w / 2),
-        y = canvas.height - h,
-        path = document.createElement('path');
-    y = (this.tmp.wave.alignment === 'center') ? canvas.height / 2 - h / 2 : y;
-    path.setAttribute('d', 'M' + x + ' ' + y + ' L' + x + ' ' + y + ' L' + x + ' ' + (y + h) + ' L' + x + ' ' + (y + h) + ' L' + x + ' ' + y + ' Z');
+    var x = i + (width / 2), y = canvas.height - height, path = document.createElement('path');
+    y = (this.tmp.wave.alignment === 'center') ? canvas.height / 2 - height / 2 : y;
+    path.setAttribute('d', 'M' + x + ' ' + y + ' L' + x + ' ' + y + ' L' + x + ' ' + (y + height) + ' L' + x + ' ' + (y + height) + ' L' + x + ' ' + y + ' Z');
     this.tmp.svg.appendChild(path);
-    return ctx.fillRect(i, y, w, h);
+    return ctx.fillRect(i, y, width, height);
   }
 };
