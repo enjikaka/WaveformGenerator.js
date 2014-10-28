@@ -1,0 +1,63 @@
+<h1 id="waveformgenerator">WaveformGenerator</h1>
+<p>WaveformGenerator.js is a simple and small library for JavaScript which generates waveform from audio, either as PNG or SVG data.</p>
+<p>You can change the color of the waveform, the width of bars, width of gaps between bars and the bars alignment.</p>
+<h2 id="usage">Usage</h2>
+<p>Create waveform by calling the <code>generate()</code> function of the <code>WaveformGenerator</code> object. The <code>generate()</code> function will return URLs to a PNG file and a SVG file in its return function.</p>
+<h3 id="structure-of-the-generate-function">Structure of the generate() function</h3>
+<pre><code>WaveformGenerator.generate(file, waveformWidth, waveformHeight, waveformColor, waveformAlign, barWidth, barGapWidth, returnFunction);
+</code></pre><table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><em>file</em></td>
+<td>File-object</td>
+</tr>
+<tr>
+<td><em>waveformWidth</em></td>
+<td>Width of the final image</td>
+</tr>
+<tr>
+<td><em>waveformHeight</em></td>
+<td>Height of the final image</td>
+</tr>
+<tr>
+<td><em>waveformColor</em></td>
+<td>Color of the outputted waveform</td>
+</tr>
+<tr>
+<td><em>waveformAlign</em></td>
+<td>Alignment of the bars in the waveform. Can be either <code>&#39;center&#39;</code> or <code>&#39;bottom&#39;</code></td>
+</tr>
+<tr>
+<td><em>barWidth</em></td>
+<td>Width of the bars. Default is 1.</td>
+</tr>
+<tr>
+<td><em>barGapWidth</em></td>
+<td>Width of the gaps between bars. Float value. Default is 0. Gap formula is <code>barWidth *= abs(1 - gap)</code></td>
+</tr>
+<tr>
+<td><em>returnFunction</em></td>
+<td>A function to handle the data sent back, 2 parameters. First one is the URL to the PNG, second to the SVG.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="example-usage">Example usage</h2>
+<pre><code>&lt;input type=&quot;file&quot;&gt;
+&lt;img id=&quot;png&quot; alt=&quot;PNG Waveform Destination&quot;&gt;
+&lt;img id=&quot;svg&quot; alt=&quot;SVG Waveform Destination&quot;&gt;
+
+&lt;script&gt;
+document.querySelector(&#39;input&#39;).addEventListener(&#39;change&#39;, function(e) {
+    WaveformGenerator.generate(e.target.files[0], 500, 200, &#39;#bada55&#39;, &#39;center&#39;, 1, 0, function(png, svg) {
+      document.querySelector(&#39;#png&#39;).src = png;
+      document.querySelector(&#39;#svg&#39;).src = svg;
+    });
+}, false);
+&lt;/script&gt;
+</code></pre><p>Demo here: <a href="http://codepen.io/enjikaka/pen/ngBoH">codepen.io/enjikaka/pen/ngBoH</a></p>

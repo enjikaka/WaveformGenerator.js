@@ -63,8 +63,8 @@ var WaveformGenerator = {
     var sections = this.tmp.canvas.width;
     var len = Math.floor(buffer.length / sections);
     for (var i = 0; i < sections; i += this.tmp.bar.width) {
-        var position = i * length;
-        this.drawBar(i, this.bufferMeasure(position, length, buffer));
+        var pos = i * len;
+        this.drawBar(i, this.bufferMeasure(pos, len, buffer));
     }
     if (i >= sections) {
       WaveformGenerator.tmp.retFunc(this.tmp.canvas.toDataURL(), URL.createObjectURL(new Blob(['<?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">' + this.tmp.svg.outerHTML], {
@@ -83,14 +83,14 @@ var WaveformGenerator = {
     var canvas = this.tmp.canvas;
     var ctx = this.tmp.canvas.getContext('2d');
     ctx.fillStyle = this.tmp.wave.color;
-    var height = val * 40 * canvas.height, width = this.tmp.bar.width;
+    var h = val * 40 * canvas.height, w = this.tmp.bar.width;
     if (this.tmp.bar.gap !== 0) {
-      width *= Math.abs(1 - this.tmp.bar.gap);
+        w *= Math.abs(1 - this.tmp.bar.gap);
     }
-    var x = i + (width / 2), y = canvas.height - height, path = document.createElement('path');
-    y = (this.tmp.wave.alignment === 'center') ? canvas.height / 2 - height / 2 : y;
-    path.setAttribute('d', 'M' + x + ' ' + y + ' L' + x + ' ' + y + ' L' + x + ' ' + (y + height) + ' L' + x + ' ' + (y + height) + ' L' + x + ' ' + y + ' Z');
+    var x = i + (w / 2), y = canvas.height - h, path = document.createElement('path');
+    y = (this.tmp.wave.alignment === 'center') ? canvas.height / 2 - h / 2 : y;
+    path.setAttribute('d', 'M' + x + ' ' + y + ' L' + x + ' ' + y + ' L' + x + ' ' + (y + h) + ' L' + x + ' ' + (y + h) + ' L' + x + ' ' + y + ' Z');
     this.tmp.svg.appendChild(path);
-    return ctx.fillRect(i, y, width, height);
+    return ctx.fillRect(i, y, w, h);
   }
 };
