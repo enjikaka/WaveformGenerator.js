@@ -9,7 +9,8 @@ var WaveformGenerator = {
     wave: {
       color: '#bada55',
       alignment: 'bottom'
-    }
+    },
+    audioContext: new AudioContext()
   },
   generate: function(file, waveformWidth, waveformHeight, waveformColor, waveformAlign, barWidth, barGapWidth, returnFunction) {
     if (arguments.length !== 8) {
@@ -49,7 +50,7 @@ var WaveformGenerator = {
     // Load URL to an ArrayBuffer
     var reader = new FileReader();
     reader.onload = function(event) {
-      new AudioContext().decodeAudioData(event.target.result, function(buffer) {
+      WaveformGenerator.tmp.audioContext.decodeAudioData(event.target.result, function(buffer) {
         WaveformGenerator.extractBuffer(buffer);
       });
     };
