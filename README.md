@@ -28,13 +28,13 @@ WaveformGenerator.generate(file, waveformWidth, waveformHeight, waveformColor, w
 
 ##Example usage
 
-###HTML
+####HTML
 ```html
 <input type="file">
 <img id="png" alt="PNG Waveform Destination">
 <img id="svg" alt="SVG Waveform Destination">
 ```
-###JavaScript
+####JavaScript
 ````javascript
 document.querySelector('input').addEventListener('change', function(e) {
     WaveformGenerator.generate(e.target.files[0], 500, 200, '#bada55', 'center', 1, 0, function(png, svg) {
