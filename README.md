@@ -36,14 +36,12 @@ WaveformGenerator.generate(file, waveformWidth, waveformHeight, waveformColor, w
 ```
 ###JavaScript
 ````javascript
-<script>
 document.querySelector('input').addEventListener('change', function(e) {
     WaveformGenerator.generate(e.target.files[0], 500, 200, '#bada55', 'center', 1, 0, function(png, svg) {
       document.querySelector('#png').src = png;
       document.querySelector('#svg').src = svg;
     });
 }, false);
-</script>
 ```
 
 Demo here: [codepen.io/enjikaka/pen/ngBoH](http://codepen.io/enjikaka/pen/ngBoH)
