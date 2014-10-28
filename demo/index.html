@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>WaveformGeneator.js Demo</title>
+</head>
+<body>
+  <input type="file"><br><br>
+  <audio controls autoplay></audio><br><br>'
+  <p>When you have choosed a file, the waveform will start to load and show up when done!</p>
+  <br><br>
+  <img id="png" style="width:500px;height:200px" alt="PNG Waveform Destination"><br>
+  <img id="svg" style="width:500px;height:200px" alt="SVG Waveform Destination">
+
+  <script src="../dist/WaveformGenerator.min.js"></script>
+  <script>
+  var png = document.querySelector('#png'),
+      svg = document.querySelector('#svg');
+  document.querySelector('input').addEventListener('change', function(e) {
+    png.src = '';
+    svg.src = '';
+    png.alt = 'Loading waveform...';
+    svg.alt = 'Loading waveform...';
+    document.querySelector('audio').src = URL.createObjectURL(e.target.files[0]);
+    WaveformGenerator.generate(e.target.files[0], 500, 200, '#bada55', 'center', 1, 0, function(png, svg) {
+      document.querySelector('#png').src = png;
+      document.querySelector('#svg').src = svg;
+    });
+  }, false);
+  </script>
+</body>
+</html>
