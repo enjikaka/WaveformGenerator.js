@@ -11,7 +11,7 @@ You can change the color of the waveform, the width of bars, width of gaps betwe
 Create waveform by calling the ```generate()``` function of the ```WaveformGenerator``` object. The ```generate()``` function will return URLs to a PNG file and a SVG file in its return function.
 
 ###Structure of the generate() function
-```
+```javascript
 WaveformGenerator.generate(file, waveformWidth, waveformHeight, waveformColor, waveformAlign, barWidth, barGapWidth, returnFunction);
 ```
 
@@ -28,11 +28,14 @@ WaveformGenerator.generate(file, waveformWidth, waveformHeight, waveformColor, w
 
 ##Example usage
 
-```
+###HTML
+```html
 <input type="file">
 <img id="png" alt="PNG Waveform Destination">
 <img id="svg" alt="SVG Waveform Destination">
-
+```
+###JavaScript
+````javascript
 <script>
 document.querySelector('input').addEventListener('change', function(e) {
     WaveformGenerator.generate(e.target.files[0], 500, 200, '#bada55', 'center', 1, 0, function(png, svg) {
@@ -41,7 +44,6 @@ document.querySelector('input').addEventListener('change', function(e) {
     });
 }, false);
 </script>
-
 ```
 
 Demo here: [codepen.io/enjikaka/pen/ngBoH](http://codepen.io/enjikaka/pen/ngBoH)
