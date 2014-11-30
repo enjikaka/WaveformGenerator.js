@@ -35,7 +35,6 @@ var WaveformGenerator = {
         this.tmp.bar.gap = (barGapWidth !== undefined ? parseFloat(barGapWidth) : 0);
         // Function that fires upon creation of waveform
         this.tmp.retFunc = returnFunction;
-        console.debug(this.tmp);
         // Prepare SVG
         this.tmp.svg = document.createElement('svg');
         var svg = this.tmp.svg;
@@ -71,12 +70,12 @@ var WaveformGenerator = {
       for (var i = 0; i < sections; i += this.tmp.bar.width) {
           vals.push(this.bufferMeasure(i * len, len, buffer) * 10000);
       }
-      for (var i = 0; i < sections; i += this.tmp.bar.width) {
+      for (var j = 0; j < sections; j += this.tmp.bar.width) {
         var scale = maxHeight / vals.max();
-        var val = this.bufferMeasure(i * len, len, buffer) * 10000;
+        var val = this.bufferMeasure(j * len, len, buffer) * 10000;
         val *= scale;
         val += 1;
-        this.drawBar(i, val);
+        this.drawBar(j, val);
       }
       if (i >= sections) {
         WaveformGenerator.tmp.retFunc(this.tmp.canvas.toDataURL(), URL.createObjectURL(new Blob(['<?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">' + this.tmp.svg.outerHTML], {
