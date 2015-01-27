@@ -48,7 +48,7 @@ document.querySelector('input').addEventListener('change', function(e) {
 
 ###Using local media
 
-[codepen.io/enjikaka/pen/ngBoH](http://codepen.io/enjikaka/pen/ngBoH)
+[codepen.io/enjikaka/pen/ngBoH](http://codepen.io/enjikaka/pen/azyvae)
 
 ###Using Spotify
 
