@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>WaveformGeneator.js Demo</title>
+  <style>
+
+  </style>
+</head>
+<body>
+  <input type="file"><br><br>
+  <audio controls autoplay></audio><br><br>
+  <p>When you have choosed a file, the waveform will start to load and show up when done!</p>
+  <br><br>
+  <div id="svg" style="width:500px;height:80px"></div>
+  <div id="svg-two" style="width:500px;height:80px"></div>
+
+  <script src="../source/WaveformGenerator2.js"></script>
+  <script>
+  var png = document.querySelector('#png'),
+      svg = document.querySelector('#svg');
+  document.querySelector('input').addEventListener('change', function(e) {
+    svg.src = '';
+    document.querySelector('audio').src = URL.createObjectURL(e.target.files[0]);
+    var reader = new FileReader();
+    reader.onload = function(event) {
+        var settings = {
+          bar: {
+            align:'center', 
+            width:1, 
+            gap: 0
+          },
+          waveform: {
+            color: 'blue',
+            width: 500,
+            height: 80
+          }
+      };
+        new WaveformGenerator(event.target.result, settings).then(function(s) {
+          document.querySelector('#svg').innerHTML = s;
+          settings.waveform.color = 'red';
+          new WaveformGenerator(event.target.result, settings).then(function(s) {
+            document.querySelector('#svg-two').innerHTML = s;
+          });
+        });
+
+    };
+    reader.readAsArrayBuffer(e.target.files[0]);
+  }, false);
+  </script>
+</body>
+</html>
