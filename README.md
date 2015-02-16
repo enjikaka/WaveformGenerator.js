@@ -5,6 +5,8 @@ WaveformGenerator.js is a simple and small library for JavaScript which generate
 
 You can change the color of the waveform, the width of bars, width of gaps between bars and the bars alignment.
 
+Licenced under [GNU GPL 3.0](https://tldrlegal.com/license/gnu-general-public-license-v3-(gpl-3)).
+
 ##Usage
 
 
