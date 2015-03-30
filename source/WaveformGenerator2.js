@@ -1,5 +1,5 @@
 var WaveformGenerator = (function(audioBuffer, settingsObject) {
-    var _defaultSettings = {
+    var _settings = {
         waveform: {
             width: 500,
             height: 80,
@@ -10,17 +10,13 @@ var WaveformGenerator = (function(audioBuffer, settingsObject) {
             width: 1,
             gap: 0
         }
-    };
-    var _settings = _defaultSettings;
-
-    var _audioContext = new AudioContext() || new WebkitAudioContext();
-
-    var _svg, _svgStyleSheet;
-
-    var guid = function() {
+    },
+    _audioContext = new AudioContext() || new WebkitAudioContext(),
+    _svg = null, 
+    _svgStyleSheet = null,
+    guid = function() {
       return 'a' + Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1) + 'b' + Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
     };
-    
     
     function _drawBar(index, height) {
         var width = _settings.bar.width;
