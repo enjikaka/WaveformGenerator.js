@@ -96,7 +96,7 @@ var WaveformGenerator = (function(audioBuffer, settingsObject) {
       _svg.setAttributeNS(null, 'viewBox', '0 0 ' + _settings.waveform.width + ' ' + _settings.waveform.height);
       _svgStyleSheet = document.createElement('style');
       _svgStyleSheet.setAttribute('type', 'text/css');
-      _svgStyleSheet.appendChild(document.createTextNode('<![CDATA[path.'+_svg.id+'{stroke:' + _settings.waveform.color + '}]]>'));
+      _svgStyleSheet.appendChild(document.createTextNode('<![CDATA[path.'+_svg.id+'{stroke:' + _settings.waveform.color + ';stroke-width:' + ((_settings.bar.width !== 0) ? (_settings.bar.width * Math.abs(1 - _settings.bar.gap)) : _settings.bar.width) + '}]]>'));
       _svg.appendChild(_svgStyleSheet);
       return new Promise(function(res,rej) {
         _audioContext.decodeAudioData(fileArrayBuffer, function(audioBuffer) {
