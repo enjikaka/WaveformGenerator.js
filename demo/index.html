@@ -14,7 +14,7 @@
   <div id="svg" style="width:500px;height:80px"></div>
   <div id="svg-two" style="width:500px;height:80px"></div>
 
-  <script src="../source/WaveformGenerator2.js"></script>
+  <script src="../dist/WaveformGenerator.js"></script>
   <script>
   var png = document.querySelector('#png'),
       svg = document.querySelector('#svg');
@@ -26,8 +26,8 @@
         var settings = {
           bar: {
             align:'center', 
-            width:1, 
-            gap: 0
+            width:4, 
+            gap: 8
           },
           waveform: {
             color: 'blue',
