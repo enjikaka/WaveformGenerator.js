@@ -35,7 +35,7 @@ You can change he following settings in the WaveformGenerator by passing your ow
 |waveformWidth|Width of the final image (Default: 500)|
 |waveformHeight|Height of the final image (Default: 80)|
 |waveformColor|Color of the waveform (Default: #bada55)|
-|barAlign|Alignment of the bars in the waveform. Can be either ```'center'```, ```'bottom'``` or ```'top'``` (Default: center)|
+|barAlign|Alignment of the bars in the waveform. Can be either ```'center'```, ```'bottom'``` or ```'top'``` (Default: 'center')|
 |barWidth|Width of the bars. (Default: 1)|
 |barGap|Width of the gaps between bars. Float value. Gap formula is ```barWidth *= abs(1 - gap)``` (Default: 0)|
 |drawMode|Controls output format. Can be ```'png'``` or ```'svg'```. (Default 'png')|
@@ -50,24 +50,28 @@ You can change he following settings in the WaveformGenerator by passing your ow
 ```
 ####JavaScript
 ````javascript
-
 document.querySelector('input').addEventListener('change', function(e) {
 	// Create file reader to read the file as an ArrayBuffer
 	var reader = new FileReader();
+
 	// Tell the reader to read the file as an ArrayBuffer
 	reader.readAsArrayBuffer(e.target.files[0]);
+
 	// When the reader has loaded the read the file as an ArrayBuffer
-  reader.onload = function(event) {
-  	var arrayBuffer = event.target.result;
+	reader.onload = function(event) {
+		var arrayBuffer = event.target.result;
+
 		var pngSettings = {drawMode: 'png'}; // 'png' is default. Can be omitted.
 		var svgSettings = {drawMode: 'svg'};
-    new WaveformGenerator(arrayBuffer, pngSettings).then(function(pngWaveformUrl) {
-      document.querySelector('#png-waveform').src = pngWaveformUrl;
-    });
-    new WaveformGenerator(arrayBuffer, svgSettings).then(function(svgWaveformUrl) {
-      document.querySelector('#svg-waveform').src = svgWaveformUrl;
-    });
-   };
+
+		new WaveformGenerator(arrayBuffer, pngSettings).then(function(pngWaveformUrl) {
+			document.querySelector('#png-waveform').src = pngWaveformUrl;
+		});
+		
+		new WaveformGenerator(arrayBuffer, svgSettings).then(function(svgWaveformUrl) {
+			document.querySelector('#svg-waveform').src = svgWaveformUrl;
+		});
+	};
 }, false);
 ```
 
