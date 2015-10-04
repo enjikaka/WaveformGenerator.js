@@ -43,6 +43,8 @@ var WaveformGenerator = (function(audioBuffer, settingsObject) {
     }
 
     if (settings.drawMode === 'png') {
+      x = Math.floor(x - 1);
+      y = Math.floor(y - 1);
       var ctx = canvas.getContext('2d');
       ctx.fillStyle = settings.waveformColor;
       ctx.fillRect(x, y, barWidth, barHeight);
@@ -73,11 +75,11 @@ var WaveformGenerator = (function(audioBuffer, settingsObject) {
       var bars = [];
       var values = [];
 
-      for (let index = 0; index < waveformWidth; index += settings.barWidth) {
+      for (let i = 0; i < waveformWidth; i += settings.barWidth) {
         var bar = {};
 
-        bar.position = index;
-        bar.height = bufferMeasure(index * len, len, buffer);
+        bar.position = i;
+        bar.height = bufferMeasure(i * len, len, buffer);
 
         values.push(bar.height);
         bars.push(bar);
@@ -85,8 +87,8 @@ var WaveformGenerator = (function(audioBuffer, settingsObject) {
 
       var scale = settings.waveformHeight / Math.max.apply(null, values);
 
-      for (let k = 0; k < bars.length; k++) {
-        let bar = bars[k];
+      for (let i = 0; i < bars.length; i++) {
+        let bar = bars[i];
         let barHeight = bar.height;
         let barPosition = bar.position;
         barHeight *= scale;
