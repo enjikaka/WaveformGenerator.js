@@ -24,8 +24,8 @@
     // When the reader has loaded the read the file as an ArrayBuffer
     reader.onload = function(event) {
       var arrayBuffer = event.target.result;
-      var pngSettings = {drawMode: 'png'}; // 'png' is default. Can be omitted.
-      var svgSettings = {drawMode: 'svg'};
+      var pngSettings = {drawMode: 'png', waveformColor: 'orange', barWidth: 4, barGap: .6}; // 'png' is default. Can be omitted.
+      var svgSettings = {drawMode: 'svg', waveformColor: 'orange', barWidth: 4, barGap: .6};
       new WaveformGenerator(arrayBuffer, pngSettings).then(function(pngWaveformUrl) {
         document.querySelector('#png-waveform').src = pngWaveformUrl;
       });
