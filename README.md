@@ -67,7 +67,7 @@ document.querySelector('input').addEventListener('change', function(e) {
 		new WaveformGenerator(arrayBuffer, pngSettings).then(function(pngWaveformUrl) {
 			document.querySelector('#png-waveform').src = pngWaveformUrl;
 		});
-		
+
 		new WaveformGenerator(arrayBuffer, svgSettings).then(function(svgWaveformUrl) {
 			document.querySelector('#svg-waveform').src = svgWaveformUrl;
 		});
@@ -84,3 +84,13 @@ document.querySelector('input').addEventListener('change', function(e) {
 ###Using Spotify
 
 [codepen.io/enjikaka/pen/DrFEk](http://codepen.io/enjikaka/pen/DrFEk)
+
+##Dependencies
+
+This demo uses ```Object.assign``` and JavaScript Promises.
+Here are polyfills:
+
+- [Object.assign()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign)
+- [es6-promise](https://github.com/jakearchibald/es6-promise)
+
+
