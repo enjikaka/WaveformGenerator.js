@@ -32,13 +32,12 @@ You can change he following settings in the WaveformGenerator by passing your ow
 
 |Parameter|Explanation|
 |--- | ---|
-||Width of the final image|
-|waveform.width|Width of the final image (Default: 500)|
-|waveform.height|Height of the final image (Default: 80)|
-|waveofmr.color|Color of the waveform (Default: #bada55)|
-|bar.align|Alignment of the bars in the waveform. Can be either ```'center'```, ```'bottom'``` or ```'top'``` (Default: center)|
-|bar.width|Width of the bars. (Default: 1)|
-|bar.gap|Width of the gaps between bars. Float value. Gap formula is ```barWidth *= abs(1 - gap)``` (Default: 0)|
+|waveformWidth|Width of the final image (Default: 500)|
+|waveformHeight|Height of the final image (Default: 80)|
+|waveofmrColor|Color of the waveform (Default: #bada55)|
+|barAlign|Alignment of the bars in the waveform. Can be either ```'center'```, ```'bottom'``` or ```'top'``` (Default: center)|
+|barWidth|Width of the bars. (Default: 1)|
+|barGap|Width of the gaps between bars. Float value. Gap formula is ```barWidth *= abs(1 - gap)``` (Default: 0)|
 |drawMode|Controls output format. Can be ```'png'``` or ```'svg'```. (Default 'png')|
 
 ##Example usage
