@@ -34,7 +34,7 @@ You can change he following settings in the WaveformGenerator by passing your ow
 |--- | ---|
 |waveformWidth|Width of the final image (Default: 500)|
 |waveformHeight|Height of the final image (Default: 80)|
-|waveofmrColor|Color of the waveform (Default: #bada55)|
+|waveformColor|Color of the waveform (Default: #bada55)|
 |barAlign|Alignment of the bars in the waveform. Can be either ```'center'```, ```'bottom'``` or ```'top'``` (Default: center)|
 |barWidth|Width of the bars. (Default: 1)|
 |barGap|Width of the gaps between bars. Float value. Gap formula is ```barWidth *= abs(1 - gap)``` (Default: 0)|
