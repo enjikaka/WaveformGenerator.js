@@ -30,7 +30,7 @@ new WaveformGenerator(arrayBuffer, myAwesomeSettings).then(function(pngWaveformU
 ```
 You can change he following settings in the WaveformGenerator by passing your own settings object.
 
-|Parameter|Explanation|
+|Setting|Explanation|
 |--- | ---|
 |waveformWidth|Width of the final image (Default: 500)|
 |waveformHeight|Height of the final image (Default: 80)|
