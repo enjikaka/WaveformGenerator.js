@@ -48,7 +48,7 @@
       new WaveformGenerator(event.target.result, settings).then(function(so) {
           document.querySelector('#waveform').src = so;
       });
-      new WaveformGenerator(event.target.result, settingsTwo).then(function(sw) {
+      new WaveformGenerator(event.target.result).then(function(sw) {
         document.querySelector('#waveform-two').src = sw;
       });
     };

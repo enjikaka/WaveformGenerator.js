@@ -1,5 +1,6 @@
 var WaveformGenerator = (function(audioBuffer, settingsObject) {
-  var settings = {
+  var settings = {};
+  var defaultSettings = {
     waveform: {
       width: 500,
       height: 80,
@@ -101,7 +102,13 @@ var WaveformGenerator = (function(audioBuffer, settingsObject) {
           reject(new Error('Could not decode audio data'));
           return;
         }
-        Object.assign(settings, settingsObject);
+        
+        if (settingsObject) {
+          Object.assign(settings, settingsObject);
+        } else {
+          settings = defaultSettings;
+        }
+        
 
         var processId = guid();
 
