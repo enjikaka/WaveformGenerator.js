@@ -68,33 +68,23 @@ var WaveformGenerator = (function(audioBuffer, settingsObject) {
   function extractBuffer(buffer) {
     return new Promise(function(resolve, reject) {
       buffer = buffer.getChannelData(0);
-      var sections = settings.waveformWidth;
-      var len = Math.floor(buffer.length / sections);
-      var maxHeight = settings.waveformHeight;
+      var waveformWidth = settings.waveformWidth;
+      var waveformHeight = settings.waveformHeight;
+      var length = Math.floor(buffer.length / waveformWidth);
 
       var vals = [];
 
-      var i;
-      for (i = 0; i < sections; i += settings.barWidth) {
-        vals.push(bufferMeasure(i * len, len, buffer) * 10000);
+      for (let i = 0; i < waveformWidth; i += settings.barWidth) {
+        vals.push(bufferMeasure(i * length, length, buffer));
       }
 
-      var scale = maxHeight / Math.max.apply(null, vals);
+      var scale = waveformHeight / Math.max.apply(null, vals);
 
-      for (var j = 0; j < sections; j += settings.barWidth) {
-        var val = bufferMeasure(j * len, len, buffer) * 10000;
-        val *= scale;
-        val += 1;
-        drawBar(j, val);
+      for (let j = 0; j < vals.length; j++) {
+        drawBar(j, vals[j] * scale);
       }
 
-      if (i >= sections) {
-        resolve();
-      }
-
-      if (vals.length <= 0) {
-        reject(new Error('No data to extract'));
-      }
+      resolve();
     });
   }
 
