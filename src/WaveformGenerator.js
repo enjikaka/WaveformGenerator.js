@@ -67,14 +67,13 @@ var WaveformGenerator = (function(audioBuffer, settingsObject) {
   function extractBuffer(buffer) {
     return new Promise(function(resolve, reject) {
       buffer = buffer.getChannelData(0);
-      var sections = settings.waveformWidth;
-      var len = Math.floor(buffer.length / sections);
-      var maxHeight = settings.waveformHeight;
+      var waveformWidth = settings.waveformWidth;
+      var len = Math.floor(buffer.length / waveformWidth);
 
       var bars = [];
       var values = [];
 
-      for (let index = 0; index < sections; index += settings.barWidth) {
+      for (let index = 0; index < waveformWidth; index += settings.barWidth) {
         var bar = {};
 
         bar.position = index;
@@ -84,7 +83,7 @@ var WaveformGenerator = (function(audioBuffer, settingsObject) {
         bars.push(bar);
       }
 
-      var scale = maxHeight / Math.max.apply(null, values);
+      var scale = settings.waveformHeight / Math.max.apply(null, values);
 
       for (let k = 0; k < bars.length; k++) {
         let bar = bars[k];
