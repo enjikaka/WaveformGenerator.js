@@ -11,48 +11,28 @@
   <audio controls autoplay></audio><br><br>
   <p>When you have choosed a file, the waveform will start to load and show up when done!</p>
   <br><br>
-  <img id="waveform" style="width:500px;height:80px">
-  <img id="waveform-two" style="width:500px;height:80px">
+  <img id="png-waveform" style="width:500px;height:80px">
+  <img id="svg-waveform" style="width:500px;height:80px">
 
   <script src="../src/WaveformGenerator.js"></script>
   <script>
   document.querySelector('input').addEventListener('change', function(e) {
-    document.querySelector('audio').src = URL.createObjectURL(e.target.files[0]);
+    // Create file reader to read the file as an ArrayBuffer
     var reader = new FileReader();
-    reader.onload = function(event) {
-        var settings = {
-          bar: {
-            align: 'center', 
-            width: 4, 
-            gap: 0.4
-          },
-          waveform: {
-            color: 'blue',
-            width: 500,
-            height: 80
-          },
-          drawMode: 'svg'
-      };
-      var settingsTwo = {
-          bar: {
-            align: 'bottom', 
-            width: 1, 
-            gap: 0
-          },
-          waveform: {
-            color: 'red',
-            width: 500,
-            height: 80
-          }
-      };
-      new WaveformGenerator(event.target.result, settings).then(function(so) {
-          document.querySelector('#waveform').src = so;
-      });
-      new WaveformGenerator(event.target.result).then(function(sw) {
-        document.querySelector('#waveform-two').src = sw;
-      });
-    };
+    // Tell the reader to read the file as an ArrayBuffer
     reader.readAsArrayBuffer(e.target.files[0]);
+    // When the reader has loaded the read the file as an ArrayBuffer
+    reader.onload = function(event) {
+      var arrayBuffer = event.target.result;
+      var pngSettings = {drawMode: 'png', waveformColor: 'red'}; // 'png' is default. Can be omitted.
+      var svgSettings = {drawMode: 'svg'};
+      new WaveformGenerator(arrayBuffer, pngSettings).then(function(pngWaveformUrl) {
+        document.querySelector('#png-waveform').src = pngWaveformUrl;
+      });
+      new WaveformGenerator(arrayBuffer, svgSettings).then(function(svgWaveformUrl) {
+        document.querySelector('#svg-waveform').src = svgWaveformUrl;
+      });
+     };
   }, false);
   </script>
 </body>

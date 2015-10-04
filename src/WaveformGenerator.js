@@ -1,16 +1,13 @@
 var WaveformGenerator = (function(audioBuffer, settingsObject) {
-  var settings = {};
+  var settings = undefined;
+
   var defaultSettings = {
-    waveform: {
-      width: 500,
-      height: 80,
-      color: '#bada55'
-    },
-    bar: {
-      align: 'center',
-      width: 1,
-      gap: 0
-    },
+    waveformWidth: 500,
+    waveformHeight: 80,
+    waveformColor: '#bada55',
+    barAlign: 'center',
+    barWidth: 1,
+    barGap: 0,
     drawMode: 'png'
   };
 
@@ -24,30 +21,30 @@ var WaveformGenerator = (function(audioBuffer, settingsObject) {
   }
     
   function drawBar(index, barHeight) {
-    var barWidth = settings.bar.width;
+    var barWidth = settings.barWidth;
 
-    if (settings.bar.gap !== 0) {
-      barWidth *= Math.abs(1 - settings.bar.gap);
+    if (settings.barGap !== 0) {
+      barWidth *= Math.abs(1 - settings.barGap);
     }
 
     var x = index + (barWidth / 2);
     var y;
 
-    switch (settings.bar.align) {
+    switch (settings.barAlign) {
       case 'top':
         y = 0;
         break;
       case 'center':
-        y = settings.waveform.height / 2 - barHeight / 2;
+        y = settings.waveformHeight / 2 - barHeight / 2;
         break;
       case 'bottom':
-        y = settings.waveform.height - barHeight;
+        y = settings.waveformHeight - barHeight;
         break;
     }
 
     if (settings.drawMode === 'png') {
       var ctx = canvas.getContext('2d');
-      ctx.fillStyle = settings.waveform.color;
+      ctx.fillStyle = settings.waveformColor;
       ctx.fillRect(x, y, barWidth, barHeight);
     }
     else if (settings.drawMode === 'svg') {
@@ -69,29 +66,36 @@ var WaveformGenerator = (function(audioBuffer, settingsObject) {
   }
 
   function extractBuffer(buffer) {
-    buffer = buffer.getChannelData(0);
-    var sections = settings.waveform.width;
-    var len = Math.floor(buffer.length / sections);
-    var maxHeight = settings.waveform.height;
+    return new Promise(function(resolve, reject) {
+      buffer = buffer.getChannelData(0);
+      var sections = settings.waveformWidth;
+      var len = Math.floor(buffer.length / sections);
+      var maxHeight = settings.waveformHeight;
 
-    var vals = [];
+      var vals = [];
 
-    for (var i = 0; i < sections; i += settings.bar.width) {
-      vals.push(bufferMeasure(i * len, len, buffer) * 10000);
-    }
+      var i;
+      for (i = 0; i < sections; i += settings.barWidth) {
+        vals.push(bufferMeasure(i * len, len, buffer) * 10000);
+      }
 
-    var scale = maxHeight / Math.max.apply(null, vals);
+      var scale = maxHeight / Math.max.apply(null, vals);
 
-    for (var j = 0; j < sections; j += settings.bar.width) {
-      var val = bufferMeasure(j * len, len, buffer) * 10000;
-      val *= scale;
-      val += 1;
-      drawBar(j, val);
-    }
+      for (var j = 0; j < sections; j += settings.barWidth) {
+        var val = bufferMeasure(j * len, len, buffer) * 10000;
+        val *= scale;
+        val += 1;
+        drawBar(j, val);
+      }
 
-    if (i >= sections) {
-      return true;
-    }
+      if (i >= sections) {
+        resolve();
+      }
+
+      if (vals.length <= 0) {
+        reject(new Error('No data to extract'));
+      }
+    });
   }
 
   // Constructor
@@ -102,13 +106,9 @@ var WaveformGenerator = (function(audioBuffer, settingsObject) {
           reject(new Error('Could not decode audio data'));
           return;
         }
-        
-        if (settingsObject) {
-          Object.assign(settings, settingsObject);
-        } else {
-          settings = defaultSettings;
-        }
-        
+
+        settings = Object.assign({}, defaultSettings);
+        settings = Object.assign(settings, settingsObject);
 
         var processId = guid();
 
@@ -116,22 +116,22 @@ var WaveformGenerator = (function(audioBuffer, settingsObject) {
         svg.id = processId;
         svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
         svg.setAttribute('version', '1.1');
-        svg.setAttributeNS(null, 'viewBox', '0 0 ' + settings.waveform.width + ' ' + settings.waveform.height);
+        svg.setAttributeNS(null, 'viewBox', '0 0 ' + settings.waveformWidth + ' ' + settings.waveformHeight);
 
         svgStyleSheet = document.createElement('style');
         svgStyleSheet.setAttribute('type', 'text/css');
-        svgStyleSheet.appendChild(document.createTextNode('<![CDATA[path.'+svg.id+'{stroke:' + settings.waveform.color + ';stroke-width:' + ((settings.bar.width !== 0) ? (settings.bar.width * Math.abs(1 - settings.bar.gap)) : settings.bar.width) + '}]]>'));
+        svgStyleSheet.appendChild(document.createTextNode('<![CDATA[path.'+svg.id+'{stroke:' + settings.waveformColor + ';stroke-width:' + ((settings.barGap !== 0) ? (settings.barWidth * Math.abs(1 - settings.barGap)) : settings.barWidth) + '}]]>'));
 
         svg.appendChild(svgStyleSheet);
 
         canvas = document.createElement('canvas');
         canvas.id = processId;
-        canvas.width = settings.waveform.width;
-        canvas.height = settings.waveform.height;
+        canvas.width = settings.waveformWidth;
+        canvas.height = settings.waveformHeight;
         var ctx = canvas.getContext('2d');
         ctx.clearRect(0, 0, canvas.width, canvas.height );
 
-        if (extractBuffer(audioBuffer)) {
+        extractBuffer(audioBuffer).then(function() {
           if (settings.drawMode === 'svg') {
             var svgUrl = URL.createObjectURL(new Blob(['<?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">' + svg.outerHTML], {
               type: 'image/svg+xml'
@@ -143,7 +143,7 @@ var WaveformGenerator = (function(audioBuffer, settingsObject) {
             console.log('Resolving canvas #' + canvas.id);
             resolve(canvas.toDataURL());
           }
-        }
+        });
       });
     });
   }

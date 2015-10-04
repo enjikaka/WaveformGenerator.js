@@ -9,40 +9,66 @@ Licensed under [GNU GPL 3.0](https://tldrlegal.com/license/gnu-general-public-li
 
 ##Usage
 
+Create a waveform by creating a new instance of WaveformGenerator and passing an array buffer and a settings object. The WaveformGenerator will return a Promise with the URL to the generated waveform.
 
-Create waveform by calling the ```generate()``` function of the ```WaveformGenerator``` object. The ```generate()``` function will return URLs to a PNG file and a SVG file in its return function.
+###Creating a waveform
 
-###Structure of the generate() function
+You can create a new generator without any settings. The generator will then use the default settings which is a normal waveform aligned in the center with a #bada55 (badass) color.
+
 ```javascript
-WaveformGenerator.generate(file, waveformWidth, waveformHeight, waveformColor, waveformAlign, barWidth, barGapWidth, returnFunction);
+new WaveformGenerator(arrayBuffer).then(function(pngWaveformUrl) {
+	document.querySelector('#awesome-png-waveform').src = pngWaveformUrl;
+});
 ```
 
-|Parameter | Value|
+To generate waveform with your own settings, put an object with the settings in the second argument of the WaveformGenerator, right after the arrayBuffer.
+
+```javascript
+new WaveformGenerator(arrayBuffer, myAwesomeSettings).then(function(pngWaveformUrl) {
+	document.querySelector('#awesome-png-waveform').src = pngWaveformUrl;
+});
+```
+You can change he following settings in the WaveformGenerator by passing your own settings object.
+
+|Parameter|Explanation|
 |--- | ---|
-|*file* | File-object|
-|*waveformWidth* |Width of the final image|
-|*waveformHeight*|Height of the final image|
-|*waveformColor*|Color of the outputted waveform|
-|*waveformAlign*|Alignment of the bars in the waveform. Can be either ```'center'``` or ```'bottom'```|
-|*barWidth*|Width of the bars. Default is 1.|
-|*barGapWidth*|Width of the gaps between bars. Float value. Default is 0. Gap formula is ```barWidth *= abs(1 - gap)```|
-|*returnFunction*|A function to handle the data sent back, 2 parameters. First one is the URL to the PNG, second to the SVG.|
+||Width of the final image|
+|waveform.width|Width of the final image (Default: 500)|
+|waveform.height|Height of the final image (Default: 80)|
+|waveofmr.color|Color of the waveform (Default: #bada55)|
+|bar.align|Alignment of the bars in the waveform. Can be either ```'center'```, ```'bottom'``` or ```'top'``` (Default: center)|
+|bar.width|Width of the bars. (Default: 1)|
+|bar.gap|Width of the gaps between bars. Float value. Gap formula is ```barWidth *= abs(1 - gap)``` (Default: 0)|
+|drawMode|Controls output format. Can be ```'png'``` or ```'svg'```. (Default 'png')|
 
 ##Example usage
 
 ####HTML
 ```html
 <input type="file">
-<img id="png" alt="PNG Waveform Destination">
-<img id="svg" alt="SVG Waveform Destination">
+<img id="png-waveform" alt="PNG Waveform Destination">
+<img id="svg-waveform" alt="SVG Waveform Destination">
 ```
 ####JavaScript
 ````javascript
+
 document.querySelector('input').addEventListener('change', function(e) {
-    WaveformGenerator.generate(e.target.files[0], 500, 200, '#bada55', 'center', 1, 0, function(png, svg) {
-      document.querySelector('#png').src = png;
-      document.querySelector('#svg').src = svg;
+	// Create file reader to read the file as an ArrayBuffer
+	var reader = new FileReader();
+	// Tell the reader to read the file as an ArrayBuffer
+	reader.readAsArrayBuffer(e.target.files[0]);
+	// When the reader has loaded the read the file as an ArrayBuffer
+  reader.onload = function(event) {
+  	var arrayBuffer = event.target.result;
+		var pngSettings = {drawMode: 'png'}; // 'png' is default. Can be omitted.
+		var svgSettings = {drawMode: 'svg'};
+    new WaveformGenerator(arrayBuffer, pngSettings).then(function(pngWaveformUrl) {
+      document.querySelector('#png-waveform').src = pngWaveformUrl;
     });
+    new WaveformGenerator(arrayBuffer, svgSettings).then(function(svgWaveformUrl) {
+      document.querySelector('#svg-waveform').src = svgWaveformUrl;
+    });
+   };
 }, false);
 ```
 
