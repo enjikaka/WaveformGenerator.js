@@ -79,11 +79,11 @@ document.querySelector('input').addEventListener('change', function(e) {
 
 ###Using local media
 
-[codepen.io/enjikaka/pen/azyvae](http://codepen.io/enjikaka/pen/azyvae)
+[codepen.io/enjikaka/full/azyvae](http://codepen.io/enjikaka/full/azyvae)
 
 ###Using Spotify
 
-[codepen.io/enjikaka/pen/DrFEk](http://codepen.io/enjikaka/pen/DrFEk)
+[codepen.io/enjikaka/full/DrFEk](http://codepen.io/enjikaka/full/DrFEk)
 
 ##Dependencies
 
