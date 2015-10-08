@@ -7,6 +7,10 @@ You can change the color of the waveform, the width of bars, width of gaps betwe
 
 Licensed under [GNU GPL 3.0](https://tldrlegal.com/license/gnu-general-public-license-v3-(gpl-3)).
 
+##Install
+
+Grab the JavaScript file from the ```dist``` directory or install with Bower like this: ```bower install waveform-generator```
+
 ##Usage
 
 Create a waveform by creating a new instance of WaveformGenerator and passing an array buffer and a settings object. The WaveformGenerator will return a Promise with the URL to the generated waveform.
