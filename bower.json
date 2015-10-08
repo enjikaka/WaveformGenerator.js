@@ -1,0 +1,24 @@
+{
+  "name": "waveform-generator",
+  "version": "0.0.1",
+  "homepage": "https://github.com/enjikaka/WaveformGenerator.js",
+  "authors": [
+    "Jeremy Karlsson <karlsson@jeremy.se>"
+  ],
+  "description": "Generate waveforms on the client",
+  "main": "dist/WaveformGenerator.js",
+  "keywords": [
+    "waveform",
+    "generator",
+    "music",
+    "javascript"
+  ],
+  "license": "GPL-3.0",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
