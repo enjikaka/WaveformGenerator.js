@@ -9,7 +9,10 @@ Licensed under [GNU GPL 3.0](https://tldrlegal.com/license/gnu-general-public-li
 
 ##Install
 
-Grab the JavaScript file from the ```dist``` directory or install with Bower like this: ```bower install waveform-generator```
+Grab the JavaScript file from the ```dist``` directory.
+
+WaveformGenerator can also be inststalled with Bower: 
+```bower install waveform-generator```
 
 ##Usage
 
