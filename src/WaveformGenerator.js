@@ -134,14 +134,15 @@ var WaveformGenerator = (function(audioBuffer, settingsObject) {
 
         extractBuffer(audioBuffer).then(function() {
           if (settings.drawMode === 'svg') {
-            var svgUrl = URL.createObjectURL(new Blob(['<?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">' + svg.outerHTML], {
+            /*var svgUrl = URL.createObjectURL(new Blob(['<?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">' + svg.outerHTML], {
               type: 'image/svg+xml'
-            }));
-            console.log('Resolving ' + processId);
+            }));*/
+            var svgUrl = 'data:image/svg+xml;base64,' + btoa('<?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">' + svg.outerHTML);
+            //console.log('Resolving ' + processId);
             resolve(svgUrl);
           } else if (settings.drawMode === 'png') {
-            console.log('Resolving ' + processId);
-            console.log('Resolving canvas #' + canvas.id);
+            //console.log('Resolving ' + processId);
+            //console.log('Resolving canvas #' + canvas.id);
             resolve(canvas.toDataURL());
           }
         });
