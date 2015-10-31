@@ -60,9 +60,11 @@ var WaveformGenerator = (function(audioBuffer, settingsObject) {
 
   function bufferMeasure(position, length, data) {
     var sum = 0.0;
+
     for (var i = position, ref = (position + length) - 1; position <= ref ? i <= ref : i >= ref; position <= ref ? i++ : i--) {
       sum += Math.pow(data[i], 2);
     }
+
     return Math.sqrt(sum / data.length);
   }
 
