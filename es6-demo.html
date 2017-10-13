@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>WaveformGeneator.js Demo</title>
+  <style>
+
+  </style>
+</head>
+<body>
+  <input type="file"><br><br>
+  <audio controls autoplay></audio><br><br>
+  <p>When you have choosed a file, the waveform will start to load and show up when done!</p>
+  <br><br>
+  <img id="png-waveform" style="width:500px;height:80px">
+  <img id="svg-waveform" style="width:500px;height:80px">
+  <img id="png2-waveform" style="width:500px;height:80px">
+  <img id="svg2-waveform" style="width:500px;height:80px">
+
+  <script type="module">
+  import WaveformGenerator from './src/index.js';
+
+  document.querySelector('input').addEventListener('change', function(e) {
+    // Create file reader to read the file as an ArrayBuffer
+    var reader = new FileReader();
+    // Tell the reader to read the file as an ArrayBuffer
+    reader.readAsArrayBuffer(e.target.files[0]);
+    // When the reader has loaded the read the file as an ArrayBuffer
+    reader.onload = async function (event) {
+      var arrayBuffer = event.target.result;
+
+      const waveformGeneratorOne = new WaveformGenerator(arrayBuffer);
+
+      document.querySelector('#png-waveform').src = await waveformGeneratorOne.getWaveform({
+        drawMode: 'png',
+        waveformColor: 'red'
+      });
+      document.querySelector('#svg-waveform').src = await waveformGeneratorOne.getWaveform({
+        drawMode: 'svg',
+        waveformColor: 'green'
+      });
+      document.querySelector('#svg2-waveform').src = await waveformGeneratorOne.getWaveform({
+        drawMode: 'svg',
+        waveformColor: 'blue',
+        barGap: 0.6,
+        barWidth: 2
+      });
+      document.querySelector('#png2-waveform').src = await waveformGeneratorOne.getWaveform({
+        drawMode: 'png',
+        waveformColor: 'pink',
+        barGap: 0.6,
+        barWidth: 4
+      });
+     };
+  }, false);
+  </script>
+</body>
+</html>
