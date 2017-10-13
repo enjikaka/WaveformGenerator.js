@@ -20,11 +20,5 @@
   "bugs": {
     "url": "https://github.com/enjikaka/WaveformGenerator.js/issues"
   },
-  "homepage": "https://github.com/enjikaka/WaveformGenerator.js#readme",
-  "devDependencies": {
-    "gulp": "^3.9.0",
-    "gulp-babel": "^5.2.1",
-    "gulp-sourcemaps": "^1.6.0",
-    "gulp-uglify": "^1.4.1"
-  }
+  "homepage": "https://github.com/enjikaka/WaveformGenerator.js#readme"
 }
