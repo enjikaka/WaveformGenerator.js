@@ -116,7 +116,7 @@ class WaveformGenerator {
     this.svg.appendChild(path);
   }
 
-  drawBar ({ position, height }) {
+  drawBar ({ position, height, offsetY }) {
     const { barGap, barAlign, waveformHeight, drawMode } = this.options;
     let { barWidth } = this.options;
 
@@ -136,7 +136,7 @@ class WaveformGenerator {
       break;
     case 'center':
     default:
-      y = (waveformHeight / 2) - (height / 2);
+      y = (waveformHeight / 2) - (height / 2) - (offsetY / 4);
       break;
     }
 
@@ -160,31 +160,57 @@ class WaveformGenerator {
   }
 
   drawWaveform (buffer) {
-    buffer = buffer.getChannelData(0);
+    const leftChannelBuffer = buffer.getChannelData(0);
+    const rightChannelBuffer = buffer.getChannelData(1);
 
     const { waveformWidth, waveformHeight, barWidth } = this.options;
 
     const len = Math.floor(buffer.length / waveformWidth);
 
     const bars = [];
-    const values = [];
+    const leftChannelValues = [];
+    const rightChannelValues = [];
+
+    const stereo = leftChannelBuffer && rightChannelBuffer;
+    const mono = leftChannelBuffer && !rightChannelBuffer;
 
     for (let i = 0; i < waveformWidth; i += barWidth) {
-      const bar = {};
+      leftChannelValues.push(this.bufferMeasure(i * len, len, leftChannelBuffer));
 
-      bar.position = i;
-      bar.height = this.bufferMeasure(i * len, len, buffer);
+      if (stereo) {
+        rightChannelValues.push(this.bufferMeasure(i * len, len, rightChannelBuffer));
+      }
+    }
 
-      values.push(bar.height);
+    const leftChannelMax = Math.max.apply(null, leftChannelValues);
+    let rightChannelMax;
+
+    if (stereo) {
+      rightChannelMax = Math.max.apply(null, rightChannelValues);
+    }
+
+    for (let i = 0; i < waveformWidth; i += barWidth) {
+      const bar = { position: i };
+
+      let topBarHalf = this.bufferMeasure(i * len, len, leftChannelBuffer);
+
+      if (stereo) {
+        const stereoMax = (leftChannelMax + rightChannelMax);
+
+        topBarHalf *= ((waveformHeight / 2) / leftChannelMax);
+        const bottomBarHalf = this.bufferMeasure(i * len, len, rightChannelBuffer) * ((waveformHeight / 2) / rightChannelMax);
+        const barHeight = (bottomBarHalf + topBarHalf) * (waveformHeight / stereoMax);
+
+        bar.height = barHeight;
+        bar.offsetY = -topBarHalf;
+      } else if (mono) {
+        bar.height = topBarHalf * (waveformHeight / leftChannelMax);
+      }
+
       bars.push(bar);
     }
 
-    const scale = waveformHeight / Math.max.apply(null, values);
-
-    bars.map(bar => {
-      bar.height *= scale;
-      return bar;
-    }).forEach(({ position, height }) => this.drawBar({ position, height }));
+    bars.forEach(({ position, height, offsetY }) => this.drawBar({ position, height, offsetY }));
   }
 }
 

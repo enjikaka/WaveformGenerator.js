@@ -20,6 +20,9 @@
   import WaveformGenerator from './src/index.js';
 
   document.querySelector('input').addEventListener('change', function(e) {
+
+    document.querySelector('audio').src = URL.createObjectURL(e.target.files[0]);
+
     // Create file reader to read the file as an ArrayBuffer
     var reader = new FileReader();
     // Tell the reader to read the file as an ArrayBuffer
