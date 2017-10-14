@@ -12,9 +12,9 @@
   <p>When you have choosed a file, the waveform will start to load and show up when done!</p>
   <br><br>
   <img id="png-waveform" style="width:500px;height:80px">
-  <img id="svg-waveform" style="width:500px;height:80px">
+  <figure id="svg-waveform" style="width:500px;height:80px"></figure>
   <img id="png2-waveform" style="width:500px;height:80px">
-  <img id="svg2-waveform" style="width:500px;height:80px">
+  <figure id="svg2-waveform" style="width:500px;height:80px"></figure>
 
   <script type="module">
   import WaveformGenerator from './src/index.js';
@@ -37,11 +37,11 @@
         drawMode: 'png',
         waveformColor: 'red'
       });
-      document.querySelector('#svg-waveform').src = await waveformGeneratorOne.getWaveform({
+      document.querySelector('#svg-waveform').innerHTML = await waveformGeneratorOne.getWaveform({
         drawMode: 'svg',
         waveformColor: 'green'
       });
-      document.querySelector('#svg2-waveform').src = await waveformGeneratorOne.getWaveform({
+      document.querySelector('#svg2-waveform').innerHTML = await waveformGeneratorOne.getWaveform({
         drawMode: 'svg',
         waveformColor: 'blue',
         barGap: 0.6,

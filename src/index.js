@@ -83,7 +83,8 @@ class WaveformGenerator {
     if (drawMode === 'png') {
       return this.canvas.toDataURL();
     } else if (drawMode === 'svg') {
-      return 'data:image/svg+xml;base64,' + btoa('<?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">' + this.svg.outerHTML);
+      return this.svg.outerHTML;
+      // return 'data:image/svg+xml;base64,' + btoa('<?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">' + this.svg.outerHTML);
     }
   }
 
@@ -93,7 +94,7 @@ class WaveformGenerator {
 
     svgStylesheet.setAttribute('type', 'text/css');
     const strokeWidth = ((barGap !== 0) ? (barWidth * Math.abs(1 - barGap)) : barWidth);
-    svgStylesheet.appendChild(document.createTextNode('path{stroke:' + waveformColor + ';stroke-width:' + strokeWidth + '}'));
+    svgStylesheet.appendChild(document.createTextNode(`path{stroke:${waveformColor};stroke-width:${strokeWidth}}`));
 
     return svgStylesheet;
   }
@@ -116,8 +117,8 @@ class WaveformGenerator {
     this.svg.appendChild(path);
   }
 
-  drawBar ({ position, height, offsetY }) {
-    const { barGap, barAlign, waveformHeight, drawMode } = this.options;
+  drawBar ({ position, height, marginTop = 0, barAlign }) {
+    const { barGap, waveformHeight, drawMode } = this.options;
     let { barWidth } = this.options;
 
     if (barGap !== 0) {
@@ -129,14 +130,14 @@ class WaveformGenerator {
 
     switch (barAlign) {
     case 'top':
-      y = 0;
+      y = 0 + marginTop;
       break;
     case 'bottom':
-      y = waveformHeight - height;
+      y = (waveformHeight - height) + marginTop;
       break;
     case 'center':
     default:
-      y = (waveformHeight / 2) - (height / 2) - (offsetY / 4);
+      y = (waveformHeight / 2) - (height / 2);
       break;
     }
 
@@ -161,7 +162,15 @@ class WaveformGenerator {
 
   drawWaveform (buffer) {
     const leftChannelBuffer = buffer.getChannelData(0);
-    const rightChannelBuffer = buffer.getChannelData(1);
+    let stereo;
+
+    let rightChannelBuffer;
+    try {
+      rightChannelBuffer = buffer.getChannelData(1);
+      stereo = true;
+    } catch (error) {
+      stereo = false;
+    }
 
     const { waveformWidth, waveformHeight, barWidth } = this.options;
 
@@ -170,9 +179,6 @@ class WaveformGenerator {
     const bars = [];
     const leftChannelValues = [];
     const rightChannelValues = [];
-
-    const stereo = leftChannelBuffer && rightChannelBuffer;
-    const mono = leftChannelBuffer && !rightChannelBuffer;
 
     for (let i = 0; i < waveformWidth; i += barWidth) {
       leftChannelValues.push(this.bufferMeasure(i * len, len, leftChannelBuffer));
@@ -190,27 +196,38 @@ class WaveformGenerator {
     }
 
     for (let i = 0; i < waveformWidth; i += barWidth) {
-      const bar = { position: i };
+      const leftBar = { position: i };
+      const rightBar = { position: i };
 
-      let topBarHalf = this.bufferMeasure(i * len, len, leftChannelBuffer);
+      const topBarHalf = this.bufferMeasure(i * len, len, leftChannelBuffer);
 
       if (stereo) {
-        const stereoMax = (leftChannelMax + rightChannelMax);
+        const bottomBarHalf = this.bufferMeasure(i * len, len, rightChannelBuffer);
 
-        topBarHalf *= ((waveformHeight / 2) / leftChannelMax);
-        const bottomBarHalf = this.bufferMeasure(i * len, len, rightChannelBuffer) * ((waveformHeight / 2) / rightChannelMax);
-        const barHeight = (bottomBarHalf + topBarHalf) * (waveformHeight / stereoMax);
+        leftBar.height = topBarHalf * ((waveformHeight / 2) / leftChannelMax);
+        rightBar.height = bottomBarHalf * ((waveformHeight / 2) / rightChannelMax);
 
-        bar.height = barHeight;
-        bar.offsetY = -topBarHalf;
-      } else if (mono) {
-        bar.height = topBarHalf * (waveformHeight / leftChannelMax);
+        leftBar.marginTop = (waveformHeight / 2) - leftBar.height;
+        rightBar.marginTop = -((waveformHeight / 2) - rightBar.height);
+
+        // leftBar.color = '#0ff';
+        // rightBar.color = 'red';
+
+        leftBar.barAlign = 'top';
+        rightBar.barAlign = 'bottom';
+      } else { // Mono
+        leftBar.height = topBarHalf * (waveformHeight / leftChannelMax);
+        leftBar.barAlign = this.options.barAlign;
       }
 
-      bars.push(bar);
+      bars.push(leftBar);
+
+      if (stereo) {
+        bars.push(rightBar);
+      }
     }
 
-    bars.forEach(({ position, height, offsetY }) => this.drawBar({ position, height, offsetY }));
+    bars.forEach(({ position, height, marginTop, barAlign }) => this.drawBar({ position, height, marginTop, barAlign }));
   }
 }
 
