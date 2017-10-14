@@ -5,7 +5,8 @@ const defaultOptions = {
   barAlign: 'center',
   barWidth: 1,
   barGap: 0,
-  drawMode: 'png'
+  drawMode: 'png',
+  forceSymmetry: false
 };
 
 function guid () {
@@ -172,7 +173,7 @@ class WaveformGenerator {
       stereo = false;
     }
 
-    const { waveformWidth, waveformHeight, barWidth } = this.options;
+    const { waveformWidth, waveformHeight, barWidth, forceSymmetry } = this.options;
 
     const len = Math.floor(buffer.length / waveformWidth);
 
@@ -207,14 +208,15 @@ class WaveformGenerator {
         leftBar.height = topBarHalf * ((waveformHeight / 2) / leftChannelMax);
         rightBar.height = bottomBarHalf * ((waveformHeight / 2) / rightChannelMax);
 
-        leftBar.marginTop = (waveformHeight / 2) - leftBar.height;
-        rightBar.marginTop = -((waveformHeight / 2) - rightBar.height);
-
-        // leftBar.color = '#0ff';
-        // rightBar.color = 'red';
-
-        leftBar.barAlign = 'top';
-        rightBar.barAlign = 'bottom';
+        if (forceSymmetry) {
+          leftBar.barAlign = 'center';
+          rightBar.barAlign = 'center';
+        } else {
+          leftBar.marginTop = (waveformHeight / 2) - leftBar.height;
+          rightBar.marginTop = -((waveformHeight / 2) - rightBar.height);
+          leftBar.barAlign = 'top';
+          rightBar.barAlign = 'bottom';
+        }
       } else { // Mono
         leftBar.height = topBarHalf * (waveformHeight / leftChannelMax);
         leftBar.barAlign = this.options.barAlign;

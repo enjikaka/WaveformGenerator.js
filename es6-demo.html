@@ -43,9 +43,8 @@
       });
       document.querySelector('#svg2-waveform').innerHTML = await waveformGeneratorOne.getWaveform({
         drawMode: 'svg',
-        waveformColor: 'blue',
-        barGap: 0.6,
-        barWidth: 2
+        waveformColor: 'green',
+        forceSymmetry: true
       });
       document.querySelector('#png2-waveform').src = await waveformGeneratorOne.getWaveform({
         drawMode: 'png',
