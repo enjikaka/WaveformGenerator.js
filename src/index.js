@@ -6,7 +6,7 @@ const defaultOptions = {
   barWidth: 1,
   barGap: 0,
   drawMode: 'png',
-  forceSymmetry: false
+  forceSymmetry: true
 };
 
 function guid () {
@@ -166,6 +166,7 @@ class WaveformGenerator {
     let stereo;
 
     let rightChannelBuffer;
+
     try {
       rightChannelBuffer = buffer.getChannelData(1);
       stereo = true;
@@ -191,9 +192,14 @@ class WaveformGenerator {
 
     const leftChannelMax = Math.max.apply(null, leftChannelValues);
     let rightChannelMax;
+    let stereoMax;
 
     if (stereo) {
       rightChannelMax = Math.max.apply(null, rightChannelValues);
+
+      if (stereo && forceSymmetry) {
+        stereoMax = Math.max.apply(null, [leftChannelMax, rightChannelMax]);
+      }
     }
 
     for (let i = 0; i < waveformWidth; i += barWidth) {
@@ -209,8 +215,10 @@ class WaveformGenerator {
         rightBar.height = bottomBarHalf * ((waveformHeight / 2) / rightChannelMax);
 
         if (forceSymmetry) {
-          leftBar.barAlign = 'center';
-          rightBar.barAlign = 'center';
+          const combinedLRHeight = (topBarHalf + bottomBarHalf) / 2;
+
+          leftBar.barAlign = this.options.barAlign;
+          leftBar.height = combinedLRHeight * (waveformHeight / stereoMax);
         } else {
           leftBar.marginTop = (waveformHeight / 2) - leftBar.height;
           rightBar.marginTop = -((waveformHeight / 2) - rightBar.height);
@@ -224,7 +232,7 @@ class WaveformGenerator {
 
       bars.push(leftBar);
 
-      if (stereo) {
+      if (stereo && !forceSymmetry) {
         bars.push(rightBar);
       }
     }
