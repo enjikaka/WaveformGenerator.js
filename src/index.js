@@ -103,9 +103,6 @@ class WaveformGenerator {
   drawBarToCanvas (x, y, barHeight) {
     const { waveformColor, barWidth } = this.options;
 
-    x = Math.floor(x - 1);
-    y = Math.floor(y - 1);
-
     this.canvasContext.fillStyle = waveformColor;
     this.canvasContext.fillRect(x, y, barWidth, barHeight);
   }

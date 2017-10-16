@@ -12,10 +12,17 @@
   <p>When you have choosed a file, the waveform will start to load and show up when done!</p>
   <br><br>
   <img id="png-waveform" style="width:500px;height:80px">
+  <hr>
+  <strong>forceSymmetry: false</strong>
   <figure id="svg-waveform" style="width:500px;height:80px"></figure>
-  <img id="png2-waveform" style="width:500px;height:80px">
   <figure id="svg2-waveform" style="width:500px;height:80px"></figure>
-
+  <hr>
+  <img id="png2-waveform" style="width:500px;height:80px">
+  <hr>
+  <strong>forceSymmetry: true (default)</strong>
+  <figure id="svg3-waveform" style="width:500px;height:80px"></figure>
+  <figure id="svg4-waveform" style="width:500px;height:80px"></figure>
+  <hr>
   <script type="module">
   import WaveformGenerator from './src/index.js';
 
@@ -43,8 +50,21 @@
       });
       document.querySelector('#svg2-waveform').innerHTML = await waveformGeneratorOne.getWaveform({
         drawMode: 'svg',
-        waveformColor: 'green',
-        forceSymmetry: true
+        waveformColor: 'pink',
+        barGap: 0.6,
+        barWidth: 4
+      });
+      document.querySelector('#svg3-waveform').innerHTML = await waveformGeneratorOne.getWaveform({
+        drawMode: 'svg',
+        waveformColor: '#0ff',
+        forceSymmetry: false
+      });
+      document.querySelector('#svg4-waveform').innerHTML = await waveformGeneratorOne.getWaveform({
+        drawMode: 'svg',
+        waveformColor: 'red',
+        barGap: 0.6,
+        barWidth: 4,
+        forceSymmetry: false
       });
       document.querySelector('#png2-waveform').src = await waveformGeneratorOne.getWaveform({
         drawMode: 'png',
