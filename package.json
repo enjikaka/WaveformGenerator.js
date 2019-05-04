@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "test": "",
-    "lint:js": "eslint *.js",
+    "lint:js": "eslint src/*.js",
     "lint:types": "tsc -p jsconfig.json --noEmit"
   },
   "repository": {
