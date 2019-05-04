@@ -1,0 +1,37 @@
+{
+  "name": "waveform-generator",
+  "description": "Client-side waveform generator",
+  "version": "0.0.1",
+  "license": "GPL-3.0",
+  "files": [
+    "dist-*/",
+    "bin/"
+  ],
+  "esnext": "dist-src/index.js",
+  "module": "dist-web/index.js",
+  "pika": true,
+  "sideEffects": false,
+  "keywords": [
+    "music",
+    "waveform",
+    "generator"
+  ],
+  "homepage": "https://github.com/enjikaka/WaveformGenerator.js#readme",
+  "bugs": {
+    "url": "https://github.com/enjikaka/WaveformGenerator.js/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/enjikaka/WaveformGenerator.js.git"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@pika/pack": "^0.3.7",
+    "@pika/plugin-build-types": "^0.3.16",
+    "@pika/plugin-build-web": "^0.3.16",
+    "@pika/plugin-standard-pkg": "^0.3.16",
+    "eslint": "^4.8.0",
+    "eslint-config-tidal": "^1.1.4",
+    "typescript": "^3.4.5"
+  }
+}
