@@ -1,5 +1,5 @@
 {
-  "name": "waveformgenerator",
+  "name": "waveform-generator-web",
   "version": "0.0.3",
   "description": "Client-side waveform generator",
   "main": "src/index.js",
