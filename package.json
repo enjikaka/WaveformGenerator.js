@@ -1,6 +1,6 @@
 {
   "name": "waveformgenerator",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Client-side waveform generator",
   "main": "src/index.js",
   "scripts": {
