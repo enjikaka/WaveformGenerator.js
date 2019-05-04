@@ -4,9 +4,9 @@
   "description": "Client-side waveform generator",
   "main": "src/index.js",
   "scripts": {
-    "test": "",
     "lint:js": "eslint src/*.js",
-    "lint:types": "tsc -p jsconfig.json --noEmit"
+    "lint:types": "tsc -p jsconfig.json --noEmit",
+    "deploy": "pack publish"
   },
   "repository": {
     "type": "git",
