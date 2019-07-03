@@ -57,7 +57,7 @@ You can change he following settings in the WaveformGenerator by passing your ow
 <img id="svg-waveform" alt="SVG Waveform Destination">
 ```
 #### JavaScript
-````javascript
+```javascript
 document.querySelector('input').addEventListener('change', e => {
 	// Create file reader to read the file as an ArrayBuffer
 	const reader = new FileReader();
