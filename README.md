@@ -91,13 +91,9 @@ document.querySelector('input').addEventListener('change', e => {
 
 [codepen.io/enjikaka/full/azyvae](http://codepen.io/enjikaka/full/azyvae)
 
-### Using Spotify
-
-[codepen.io/enjikaka/full/DrFEk](http://codepen.io/enjikaka/full/DrFEk)
-
 ## Dependencies
 
-This demo uses ```Object.assign``` and JavaScript Promises.
+This demo uses ```Object.assign``` and JavaScript promises.
 Here are polyfills:
 
 - [Object.assign()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign)
