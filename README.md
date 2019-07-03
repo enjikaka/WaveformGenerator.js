@@ -71,8 +71,8 @@ document.querySelector('input').addEventListener('change', e => {
 	reader.onload = async (event) => {
 		const arrayBuffer = event.target.result;
 
-		const pngSettings = {drawMode: 'png'}; // 'png' is default. Can be omitted.
-		const svgSettings = {drawMode: 'svg'};
+		const pngSettings = { drawMode: 'png' }; // 'png' is default.
+		const svgSettings = { drawMode: 'svg' };
 
                 const waveformGenerator = new WaveformGenerator(arrayBuffer);
 
