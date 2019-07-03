@@ -10,7 +10,9 @@ Licensed under [GNU GPL 3.0](https://tldrlegal.com/license/gnu-general-public-li
 ## Install
 
 `npm install waveform-generator-web`
+
 or
+
 `import WaveformGenerator from 'https://unpkg.com/waveform-generator-web@0.0.4?module';`
 
 ## Usage
