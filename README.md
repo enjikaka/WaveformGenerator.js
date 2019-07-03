@@ -9,7 +9,9 @@ Licensed under [GNU GPL 3.0](https://tldrlegal.com/license/gnu-general-public-li
 
 ## Install
 
-`npm install waveform-generator-web` or `import WaveformGenerator from 'https://unpkg.com/waveform-generator-web@0.0.4?module';`
+`npm install waveform-generator-web`
+or
+`import WaveformGenerator from 'https://unpkg.com/waveform-generator-web@0.0.4?module';`
 
 ## Usage
 
@@ -20,17 +22,19 @@ Create a waveform by creating a new instance of WaveformGenerator and passing an
 You can create a new generator without any settings. The generator will then use the default settings which is a normal waveform aligned in the center with a #bada55 (badass) color.
 
 ```javascript
-new WaveformGenerator(arrayBuffer).then(function(pngWaveformUrl) {
-	document.querySelector('#awesome-png-waveform').src = pngWaveformUrl;
-});
+const waveformGenerator = new WaveformGenerator(arrayBuffer);
+const pngWaveformURL = await waveformGenerator.getWaveform();
+
+document.querySelector('#awesome-png-waveform').src = pngWaveformUrl;
 ```
 
 To generate waveform with your own settings, put an object with the settings in the second argument of the WaveformGenerator, right after the arrayBuffer.
 
 ```javascript
-new WaveformGenerator(arrayBuffer, myAwesomeSettings).then(function(pngWaveformUrl) {
-	document.querySelector('#awesome-png-waveform').src = pngWaveformUrl;
-});
+const waveformGenerator = new WaveformGenerator(arrayBuffer);
+const pngWaveformURL = await waveformGenerator.getWaveform(myAwesomeSettings);
+
+document.querySelector('#awesome-png-waveform').src = pngWaveformURL;
 ```
 You can change he following settings in the WaveformGenerator by passing your own settings object.
 
@@ -54,27 +58,27 @@ You can change he following settings in the WaveformGenerator by passing your ow
 ```
 #### JavaScript
 ````javascript
-document.querySelector('input').addEventListener('change', function(e) {
+document.querySelector('input').addEventListener('change', e => {
 	// Create file reader to read the file as an ArrayBuffer
-	var reader = new FileReader();
+	const reader = new FileReader();
 
 	// Tell the reader to read the file as an ArrayBuffer
 	reader.readAsArrayBuffer(e.target.files[0]);
 
 	// When the reader has loaded the read the file as an ArrayBuffer
-	reader.onload = function(event) {
-		var arrayBuffer = event.target.result;
+	reader.onload = async (event) => {
+		const arrayBuffer = event.target.result;
 
-		var pngSettings = {drawMode: 'png'}; // 'png' is default. Can be omitted.
-		var svgSettings = {drawMode: 'svg'};
+		const pngSettings = {drawMode: 'png'}; // 'png' is default. Can be omitted.
+		const svgSettings = {drawMode: 'svg'};
 
-		new WaveformGenerator(arrayBuffer, pngSettings).then(function(pngWaveformUrl) {
-			document.querySelector('#png-waveform').src = pngWaveformUrl;
-		});
+                const waveformGenerator = new WaveformGenerator(arrayBuffer);
 
-		new WaveformGenerator(arrayBuffer, svgSettings).then(function(svgWaveformUrl) {
-			document.querySelector('#svg-waveform').src = svgWaveformUrl;
-		});
+                const pngWaveformURL = waveformGenerator.getWaveform(pngSettings);
+		const svgWaveformUrl = waveformGenerator.getWaveform(svgSettings);
+
+		document.querySelector('#png-waveform').src = await pngWaveformUrl;
+		document.querySelector('#svg-waveform').src = await svgWaveformUrl;
 	};
 }, false);
 ```
