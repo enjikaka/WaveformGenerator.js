@@ -74,11 +74,11 @@ document.querySelector('input').addEventListener('change', e => {
 
                 const waveformGenerator = new WaveformGenerator(arrayBuffer);
 
-                const pngWaveformURL = waveformGenerator.getWaveform(pngSettings);
-		const svgWaveformUrl = waveformGenerator.getWaveform(svgSettings);
+                const pngWaveformURL = await waveformGenerator.getWaveform(pngSettings);
+		const svgWaveformUrl = await waveformGenerator.getWaveform(svgSettings);
 
-		document.querySelector('#png-waveform').src = await pngWaveformUrl;
-		document.querySelector('#svg-waveform').src = await svgWaveformUrl;
+		document.querySelector('#png-waveform').src = pngWaveformUrl;
+		document.querySelector('#svg-waveform').src = svgWaveformUrl;
 	};
 }, false);
 ```
