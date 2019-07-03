@@ -7,19 +7,15 @@ You can change the color of the waveform, the width of bars, width of gaps betwe
 
 Licensed under [GNU GPL 3.0](https://tldrlegal.com/license/gnu-general-public-license-v3-(gpl-3)).
 
-##Install
+## Install
 
-Grab the JavaScript file from the ```dist``` directory.
+`npm install waveform-generator-web` or `import WaveformGenerator from 'https://unpkg.com/waveform-generator-web@0.0.4?module';`
 
-WaveformGenerator can also be inststalled with Bower: 
-
-```bower install waveform-generator```
-
-##Usage
+## Usage
 
 Create a waveform by creating a new instance of WaveformGenerator and passing an array buffer and a settings object. The WaveformGenerator will return a Promise with the URL to the generated waveform.
 
-###Creating a waveform
+### Creating a waveform
 
 You can create a new generator without any settings. The generator will then use the default settings which is a normal waveform aligned in the center with a #bada55 (badass) color.
 
@@ -48,15 +44,15 @@ You can change he following settings in the WaveformGenerator by passing your ow
 |barGap|Width of the gaps between bars. Float value. Gap formula is ```barWidth *= abs(1 - gap)``` (Default: 0)|
 |drawMode|Controls output format. Can be ```'png'``` or ```'svg'```. (Default 'png')|
 
-##Example usage
+## Example usage
 
-####HTML
+#### HTML
 ```html
 <input type="file">
 <img id="png-waveform" alt="PNG Waveform Destination">
 <img id="svg-waveform" alt="SVG Waveform Destination">
 ```
-####JavaScript
+#### JavaScript
 ````javascript
 document.querySelector('input').addEventListener('change', function(e) {
 	// Create file reader to read the file as an ArrayBuffer
@@ -83,17 +79,17 @@ document.querySelector('input').addEventListener('change', function(e) {
 }, false);
 ```
 
-##Demo
+## Demo
 
-###Using local media
+### Using local media
 
 [codepen.io/enjikaka/full/azyvae](http://codepen.io/enjikaka/full/azyvae)
 
-###Using Spotify
+### Using Spotify
 
 [codepen.io/enjikaka/full/DrFEk](http://codepen.io/enjikaka/full/DrFEk)
 
-##Dependencies
+## Dependencies
 
 This demo uses ```Object.assign``` and JavaScript Promises.
 Here are polyfills:
