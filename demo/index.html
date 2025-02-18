@@ -15,6 +15,10 @@
   <img id="svg-waveform" style="width:500px;height:80px">
   <img id="png2-waveform" style="width:500px;height:80px">
   <img id="svg2-waveform" style="width:500px;height:80px">
+  <img id="png3-waveform" style="width:500px;height:80px">
+  <img id="svg3-waveform" style="width:500px;height:80px">
+  <img id="png4-waveform" style="width:500px;height:80px">
+  <img id="svg4-waveform" style="width:500px;height:80px">
 
   <script type="module">
   import WaveformGenerator from '../pkg/index.js';
@@ -52,6 +56,26 @@
         waveformColor: 'pink',
         barGap: 0.6,
         barWidth: 4
+      });
+      document.querySelector('#png3-waveform').src = await waveformGeneratorOne.getWaveform({
+        drawMode: 'png',
+        waveformColor: 'red',
+        barAlign: 'bottom'
+      });
+      document.querySelector('#png4-waveform').src = await waveformGeneratorOne.getWaveform({
+        drawMode: 'png',
+        waveformColor: 'red',
+        barAlign: 'top'
+      });
+      document.querySelector('#svg3-waveform').src = await waveformGeneratorOne.getWaveform({
+        drawMode: 'svg',
+        waveformColor: 'red',
+        barAlign: 'bottom'
+      });
+      document.querySelector('#svg4-waveform').src = await waveformGeneratorOne.getWaveform({
+        drawMode: 'svg',
+        waveformColor: 'red',
+        barAlign: 'top'
       });
      };
   }, false);

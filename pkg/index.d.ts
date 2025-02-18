@@ -17,11 +17,12 @@ declare class WaveformGenerator {
     generateSVGStylesheet(): HTMLStyleElement;
     drawBarToCanvas(x: number, y: number, barHeight: number): void;
     drawBarToSVG(x: number, y: number, barHeight: number): void;
-    drawBar({ position, height }: {
+    drawBar({ position, height, isPositive, }: {
         position: number;
         height: number;
+        isPositive: boolean;
     }): void;
-    bufferMeasure(position: number, length: number, data: Float32Array<ArrayBufferLike>): number;
+    bufferMeasure(position: number, length: number, data: Float32Array): number;
     drawWaveform(audioBuffer: AudioBuffer): void;
 }
 export default WaveformGenerator;
