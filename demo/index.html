@@ -16,31 +16,42 @@
   <img id="png2-waveform" style="width:500px;height:80px">
   <img id="svg2-waveform" style="width:500px;height:80px">
 
-  <script src="../dist/WaveformGenerator.js"></script>
-  <script>
+  <script type="module">
+  import WaveformGenerator from '../pkg/index.js';
+
   document.querySelector('input').addEventListener('change', function(e) {
     // Create file reader to read the file as an ArrayBuffer
     var reader = new FileReader();
     // Tell the reader to read the file as an ArrayBuffer
     reader.readAsArrayBuffer(e.target.files[0]);
+
+    document.querySelector('audio').src = URL.createObjectURL(e.target.files[0]);
+
     // When the reader has loaded the read the file as an ArrayBuffer
-    reader.onload = function(event) {
+    reader.onload = async function (event) {
       var arrayBuffer = event.target.result;
-      var pngSettings = {drawMode: 'png', waveformColor: 'red', barAlign: 'bottom'};
-      var svgSettings = {drawMode: 'svg', waveformColor: 'green'};
-      var pngTwoSettings = {drawMode: 'png', waveformColor: 'orange', barWidth: 6, barGap: .4, barAlign: 'top'};
-      var svgTwoSettings = {drawMode: 'svg', waveformColor: 'blue', barWidth: 4, barGap: .6};
-      new WaveformGenerator(arrayBuffer, pngSettings).then(function(pngWaveformUrl) {
-        document.querySelector('#png-waveform').src = pngWaveformUrl;
+
+      const waveformGeneratorOne = new WaveformGenerator(arrayBuffer);
+
+      document.querySelector('#png-waveform').src = await waveformGeneratorOne.getWaveform({
+        drawMode: 'png',
+        waveformColor: 'red'
       });
-      new WaveformGenerator(arrayBuffer, svgSettings).then(function(svgWaveformUrl) {
-        document.querySelector('#svg-waveform').src = svgWaveformUrl;
+      document.querySelector('#svg-waveform').src = await waveformGeneratorOne.getWaveform({
+        drawMode: 'svg',
+        waveformColor: 'green'
       });
-      new WaveformGenerator(arrayBuffer, pngTwoSettings).then(function(pngWaveformUrl) {
-        document.querySelector('#png2-waveform').src = pngWaveformUrl;
+      document.querySelector('#svg2-waveform').src = await waveformGeneratorOne.getWaveform({
+        drawMode: 'svg',
+        waveformColor: 'blue',
+        barGap: 0.6,
+        barWidth: 2
       });
-      new WaveformGenerator(arrayBuffer, svgTwoSettings).then(function(svgWaveformUrl) {
-        document.querySelector('#svg2-waveform').src = svgWaveformUrl;
+      document.querySelector('#png2-waveform').src = await waveformGeneratorOne.getWaveform({
+        drawMode: 'png',
+        waveformColor: 'pink',
+        barGap: 0.6,
+        barWidth: 4
       });
      };
   }, false);
