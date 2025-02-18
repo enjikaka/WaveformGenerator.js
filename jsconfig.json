@@ -1,7 +1,0 @@
-{
-  "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext"
-  },
-  "include": ["src/*.js"]
-}

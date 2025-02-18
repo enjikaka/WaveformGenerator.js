@@ -7,34 +7,36 @@ You can change the color of the waveform, the width of bars, width of gaps betwe
 
 Licensed under [GNU GPL 3.0](https://tldrlegal.com/license/gnu-general-public-license-v3-(gpl-3)).
 
-##Install
+## Install
 
-Grab the JavaScript file from the ```dist``` directory.
+`npm install waveform-generator-web`
 
-WaveformGenerator can also be inststalled with Bower: 
+or
 
-```bower install waveform-generator```
+`import WaveformGenerator from 'https://unpkg.com/waveform-generator-web@0.0.4?module';`
 
-##Usage
+## Usage
 
 Create a waveform by creating a new instance of WaveformGenerator and passing an array buffer and a settings object. The WaveformGenerator will return a Promise with the URL to the generated waveform.
 
-###Creating a waveform
+### Creating a waveform
 
 You can create a new generator without any settings. The generator will then use the default settings which is a normal waveform aligned in the center with a #bada55 (badass) color.
 
 ```javascript
-new WaveformGenerator(arrayBuffer).then(function(pngWaveformUrl) {
-	document.querySelector('#awesome-png-waveform').src = pngWaveformUrl;
-});
+const waveformGenerator = new WaveformGenerator(arrayBuffer);
+const pngWaveformURL = await waveformGenerator.getWaveform();
+
+document.querySelector('#awesome-png-waveform').src = pngWaveformUrl;
 ```
 
 To generate waveform with your own settings, put an object with the settings in the second argument of the WaveformGenerator, right after the arrayBuffer.
 
 ```javascript
-new WaveformGenerator(arrayBuffer, myAwesomeSettings).then(function(pngWaveformUrl) {
-	document.querySelector('#awesome-png-waveform').src = pngWaveformUrl;
-});
+const waveformGenerator = new WaveformGenerator(arrayBuffer);
+const pngWaveformURL = await waveformGenerator.getWaveform(myAwesomeSettings);
+
+document.querySelector('#awesome-png-waveform').src = pngWaveformURL;
 ```
 You can change he following settings in the WaveformGenerator by passing your own settings object.
 
@@ -48,54 +50,50 @@ You can change he following settings in the WaveformGenerator by passing your ow
 |barGap|Width of the gaps between bars. Float value. Gap formula is ```barWidth *= abs(1 - gap)``` (Default: 0)|
 |drawMode|Controls output format. Can be ```'png'``` or ```'svg'```. (Default 'png')|
 
-##Example usage
+## Example usage
 
-####HTML
+#### HTML
 ```html
 <input type="file">
 <img id="png-waveform" alt="PNG Waveform Destination">
 <img id="svg-waveform" alt="SVG Waveform Destination">
 ```
-####JavaScript
-````javascript
-document.querySelector('input').addEventListener('change', function(e) {
+#### JavaScript
+```javascript
+document.querySelector('input').addEventListener('change', e => {
 	// Create file reader to read the file as an ArrayBuffer
-	var reader = new FileReader();
+	const reader = new FileReader();
 
 	// Tell the reader to read the file as an ArrayBuffer
 	reader.readAsArrayBuffer(e.target.files[0]);
 
 	// When the reader has loaded the read the file as an ArrayBuffer
-	reader.onload = function(event) {
-		var arrayBuffer = event.target.result;
+	reader.onload = async (event) => {
+		const arrayBuffer = event.target.result;
 
-		var pngSettings = {drawMode: 'png'}; // 'png' is default. Can be omitted.
-		var svgSettings = {drawMode: 'svg'};
+		const pngSettings = { drawMode: 'png' }; // 'png' is default.
+		const svgSettings = { drawMode: 'svg' };
 
-		new WaveformGenerator(arrayBuffer, pngSettings).then(function(pngWaveformUrl) {
-			document.querySelector('#png-waveform').src = pngWaveformUrl;
-		});
+                const waveformGenerator = new WaveformGenerator(arrayBuffer);
 
-		new WaveformGenerator(arrayBuffer, svgSettings).then(function(svgWaveformUrl) {
-			document.querySelector('#svg-waveform').src = svgWaveformUrl;
-		});
+                const pngWaveformURL = await waveformGenerator.getWaveform(pngSettings);
+		const svgWaveformUrl = await waveformGenerator.getWaveform(svgSettings);
+
+		document.querySelector('#png-waveform').src = pngWaveformUrl;
+		document.querySelector('#svg-waveform').src = svgWaveformUrl;
 	};
 }, false);
 ```
 
-##Demo
+## Demo
 
-###Using local media
+### Using local media
 
 [codepen.io/enjikaka/full/azyvae](http://codepen.io/enjikaka/full/azyvae)
 
-###Using Spotify
+## Dependencies
 
-[codepen.io/enjikaka/full/DrFEk](http://codepen.io/enjikaka/full/DrFEk)
-
-##Dependencies
-
-This demo uses ```Object.assign``` and JavaScript Promises.
+This demo uses ```Object.assign``` and JavaScript promises.
 Here are polyfills:
 
 - [Object.assign()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign)

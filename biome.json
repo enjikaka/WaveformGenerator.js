@@ -1,0 +1,20 @@
+{
+	"$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+	"formatter": {
+		"enabled": true
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"style": {
+				"noInferrableTypes": "off"
+			},
+			"complexity": {
+				"noUselessSwitchCase": "off"
+			}
+		}
+	},
+	"organizeImports": {
+		"enabled": true
+	}
+}

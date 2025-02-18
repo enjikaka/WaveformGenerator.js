@@ -1,37 +1,33 @@
 {
   "name": "waveform-generator-web",
+  "version": "0.0.1",
   "description": "Client-side waveform generator",
-  "version": "0.0.4",
-  "license": "GPL-3.0",
-  "files": [
-    "dist-*/",
-    "bin/"
-  ],
-  "esnext": "dist-src/index.js",
-  "module": "dist-web/index.js",
-  "pika": true,
-  "sideEffects": false,
+  "main": "src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/enjikaka/WaveformGenerator.js.git"
+  },
   "keywords": [
     "music",
     "waveform",
     "generator"
   ],
-  "homepage": "https://github.com/enjikaka/WaveformGenerator.js#readme",
+  "author": "Jeremy Karlsson <karlsson@jeremy.se>",
+  "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/enjikaka/WaveformGenerator.js/issues"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/enjikaka/WaveformGenerator.js.git"
-  },
-  "dependencies": {},
+  "homepage": "https://github.com/enjikaka/WaveformGenerator.js#readme",
   "devDependencies": {
-    "@pika/pack": "^0.3.7",
-    "@pika/plugin-build-types": "^0.3.16",
-    "@pika/plugin-build-web": "^0.3.16",
-    "@pika/plugin-standard-pkg": "^0.3.16",
-    "eslint": "^4.8.0",
-    "eslint-config-tidal": "^1.1.4",
-    "typescript": "^3.4.5"
-  }
+    "@biomejs/biome": "^1.9.4",
+    "esbuild": "^0.25.0",
+    "http-server": "^14.1.1",
+    "typescript": "^5.7.3"
+  },
+  "exports": {
+    ".": "./index.js"
+  },
+  "browser": "./index.js",
+  "type": "module",
+  "types": "./index.d.ts"
 }
