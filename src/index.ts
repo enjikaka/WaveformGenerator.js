@@ -56,6 +56,9 @@ function generateNewCanvasTarget(width, height) {
 	return canvas;
 }
 
+/**
+ * Main class for generating waveforms with canvas and SVG.
+ */
 class WaveformGenerator {
 	#fileArrayBuffer: ArrayBuffer;
 	#audioBuffer: AudioBuffer;
@@ -64,6 +67,9 @@ class WaveformGenerator {
 	#canvasContext: CanvasRenderingContext2D;
 	#options: Options = defaultOptions;
 
+	/**
+	 * Call the constructor with the file ArrayBuffer.
+	 */
 	constructor(fileArrayBuffer: ArrayBuffer) {
 		this.#fileArrayBuffer = fileArrayBuffer;
 	}
