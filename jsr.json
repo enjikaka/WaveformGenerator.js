@@ -1,0 +1,6 @@
+{
+	"name": "@enjikaka/waveform-generator",
+	"version": "0.0.4",
+	"license": "MIT",
+	"exports": "./src/index.ts"
+}
