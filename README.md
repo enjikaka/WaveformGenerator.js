@@ -7,6 +7,10 @@ You can change the color of the waveform, the width of bars, width of gaps betwe
 
 ## Install
 
+`npx jsr add @enjikaka/waveform-generator`
+
+or
+
 `npm install waveform-generator-web`
 
 or
