@@ -177,14 +177,15 @@ class WaveformGenerator {
 		}
 	}
 
-	#bufferMeasure(position: number, length: number, data: Float32Array): number {
+	#bufferMeasure(segmentStartPosition: number, segmentLength: number, data: Float32Array): number {
 		let sum = 0.0;
+		const segmentEndPosition = segmentStartPosition + segmentLength - 1;
 
-		for (let i = position; i < position + length; i++) {
+		for (let i = segmentStartPosition; i <= segmentEndPosition; i++) {
 			sum += data[i] ** 2;
 		}
 
-		return Math.sqrt(sum / length);
+		return Math.sqrt(sum / segmentLength);
 	}
 
 	#drawCenterline(): void {
