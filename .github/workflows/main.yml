@@ -1,0 +1,32 @@
+name: Node.js CI
+on:
+  workflow_call:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [22.14.0]
+        deno-version: [2.1.10]
+    steps:
+    - uses: actions/checkout@v4
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Use Deno ${{ matrix.deno-version }}
+      uses: denoland/setup-deno@v2
+      with:
+        deno-version: ${{ matrix.deno-version }}
+    - run: npm ci
+    - run: npm test
+    - run: npm run build
+    - uses: actions/upload-artifact@v4
+      with:
+        name: build
+        path: pkg
