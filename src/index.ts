@@ -85,10 +85,10 @@ class WaveformGenerator {
 			this.#canvasContext = this.#canvas.getContext("2d");
 		} else if (drawMode === "svg") {
 			this.#svg = generateNewSVGTarget(waveformWidth, waveformHeight);
-			this.#svg.appendChild(this.generateSVGStylesheet());
+			this.#svg.appendChild(this.#generateSVGStylesheet());
 		}
 
-		this.drawWaveform(this.#audioBuffer);
+		this.#drawWaveform(this.#audioBuffer);
 
 		if (drawMode === "png") {
 			return this.#canvas.toDataURL();
@@ -99,7 +99,7 @@ class WaveformGenerator {
 		)}`;
 	}
 
-	generateSVGStylesheet(): HTMLStyleElement {
+	#generateSVGStylesheet(): HTMLStyleElement {
 		const { waveformColor, barWidth, barGap } = this.#options;
 		const svgStylesheet = document.createElement("style");
 
@@ -115,7 +115,7 @@ class WaveformGenerator {
 		return svgStylesheet;
 	}
 
-	drawBarToCanvas(x: number, y: number, barHeight: number): void {
+	#drawBarToCanvas(x: number, y: number, barHeight: number): void {
 		const { waveformColor, barWidth } = this.#options;
 
 		const finalX = Math.floor(x - 1);
@@ -125,13 +125,13 @@ class WaveformGenerator {
 		this.#canvasContext.fillRect(finalX, finalY, barWidth, barHeight);
 	}
 
-	drawBarToSVG(x: number, y: number, barHeight: number): void {
+	#drawBarToSVG(x: number, y: number, barHeight: number): void {
 		const path = document.createElement("path");
 		path.setAttribute("d", `M${x} ${y} L${x} ${y + barHeight} Z`);
 		this.#svg.appendChild(path);
 	}
 
-	drawBar({
+	#drawBar({
 		position,
 		height,
 		isPositive,
@@ -167,9 +167,9 @@ class WaveformGenerator {
 		}
 
 		if (drawMode === "png") {
-			this.drawBarToCanvas(x, y, height);
+			this.#drawBarToCanvas(x, y, height);
 		} else if (drawMode === "svg") {
-			this.drawBarToSVG(x, y, height); // Now passing y for SVG too
+			this.#drawBarToSVG(x, y, height); // Now passing y for SVG too
 		} else {
 			throw new Error(
 				`Unsupported drawMode in options; ${drawMode}. Allowed: png, svg`,
@@ -177,17 +177,26 @@ class WaveformGenerator {
 		}
 	}
 
-	bufferMeasure(position: number, length: number, data: Float32Array): number {
+	#bufferMeasure(position: number, length: number, data: Float32Array): number {
 		let sum = 0.0;
 
 		for (let i = position; i < position + length; i++) {
 			sum += data[i] ** 2;
 		}
 
-		return Math.sqrt(sum / length); // Normalizing by 'length' instead of 'data.length'
+		return Math.sqrt(sum / length);
 	}
 
-	drawWaveform(audioBuffer: AudioBuffer): void {
+	#drawCenterline(): void {
+		const { drawMode, barAlign, waveformColor } = this.#options;
+
+		if (drawMode === "png" && barAlign === "center") {
+			this.#canvasContext.fillStyle = waveformColor;
+			this.#canvasContext.fillRect(0, (this.#canvas.height / 2) - 2, this.#canvas.width, 1);
+		}
+	}
+
+	#drawWaveform(audioBuffer: AudioBuffer): void {
 		const leftBuffer = audioBuffer.getChannelData(0);
 		const rightBuffer =
 			audioBuffer.numberOfChannels > 1
@@ -201,8 +210,8 @@ class WaveformGenerator {
 		const bars = [];
 
 		for (let i = 0; i < waveformWidth; i += barWidth) {
-			const leftHeight = this.bufferMeasure(i * len, len, leftBuffer);
-			const rightHeight = this.bufferMeasure(i * len, len, rightBuffer);
+			const leftHeight = this.#bufferMeasure(i * len, len, leftBuffer);
+			const rightHeight = this.#bufferMeasure(i * len, len, rightBuffer);
 
 			bars.push({
 				position: i,
@@ -217,17 +226,19 @@ class WaveformGenerator {
 		const scale = halfHeight / maxAmplitude;
 
 		for (const { position, positiveHeight, negativeHeight } of bars) {
-			this.drawBar({
+			this.#drawBar({
 				position,
 				height: positiveHeight * scale,
 				isPositive: true,
 			});
-			this.drawBar({
+			this.#drawBar({
 				position,
 				height: negativeHeight * scale,
 				isPositive: false,
 			});
 		}
+
+		this.#drawCenterline();
 	}
 }
 
