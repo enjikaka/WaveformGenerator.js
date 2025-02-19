@@ -1,6 +1,6 @@
 {
 	"name": "waveform-generator-web",
-	"version": "0.0.4",
+	"version": "0.1.0",
 	"description": "Client-side waveform generator",
 	"main": "src/index.js",
 	"scripts": {
@@ -14,7 +14,11 @@
 		"type": "git",
 		"url": "git+https://github.com/enjikaka/WaveformGenerator.js.git"
 	},
-	"keywords": ["music", "waveform", "generator"],
+	"keywords": [
+		"music",
+		"waveform",
+		"generator"
+	],
 	"author": "Jeremy Karlsson <karlsson@jeremy.se>",
 	"license": "GPL-3.0",
 	"bugs": {
